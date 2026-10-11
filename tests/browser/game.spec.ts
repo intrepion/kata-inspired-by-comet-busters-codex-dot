@@ -9,9 +9,11 @@ test('accessible menu, quick taps, pause isolation, manual, restart and preferen
  await page.getByRole('button',{name:'Launch solo'}).click();await expect(page.locator('#countdown')).toBeHidden({timeout:5000});
  await page.keyboard.press('q');await expect(page.locator('#pilots')).toContainText('BLINK 3s');
  await page.keyboard.press('Escape');await expect(page.getByRole('heading',{name:'Take a breath.'})).toBeVisible();
- const paused=await page.locator('#pilots').innerText();await page.keyboard.press('e');await page.keyboard.press('Space');await page.waitForTimeout(500);expect(await page.locator('#pilots').innerText()).toBe(paused);
+ const paused=await page.locator('#pilots').innerText();await page.keyboard.press('e');await page.keyboard.press('f');await page.waitForTimeout(500);expect(await page.locator('#pilots').innerText()).toBe(paused);
  await page.getByRole('button',{name:'Flight manual'}).click();await expect(page.getByRole('dialog')).toBeVisible();await page.getByRole('button',{name:'Close'}).click();
  await page.getByRole('button',{name:'Resume flight'}).click();await expect(page.locator('#end-panel')).toBeHidden();
+ await page.getByRole('button',{name:'Sound off'}).focus();await page.keyboard.press('Space');await expect(page.getByRole('button',{name:'Sound on'})).toBeVisible();
+ await page.locator('#pause').focus();await page.keyboard.press('Enter');await expect(page.getByRole('heading',{name:'Take a breath.'})).toBeVisible();await page.getByRole('button',{name:'Resume flight'}).click();
  await page.keyboard.press('Escape');await page.getByRole('button',{name:'Return to hangar'}).click();await page.getByRole('button',{name:'Local co-op'}).click();
  await expect(page.locator('.pilot-readout')).toHaveCount(2);await expect(page.locator('#pilots')).toContainText('COPPER');expect(errors).toEqual([]);
 });
@@ -23,12 +25,14 @@ test('mobile solo controls fit and accept concurrent touch input',async({page})=
  await page.screenshot({path:'artifacts/mobile-hangar.png',fullPage:true});
  await page.getByRole('button',{name:'Launch solo'}).click();await expect(page.locator('#countdown')).toBeHidden({timeout:5000});
  await expect(page.getByRole('button',{name:'Thrust',exact:true})).toBeVisible();
- // Browser-native pointer dispatch at the DOM input boundary; no simulation state manipulation.
- await page.locator('[data-action=fire]').dispatchEvent('pointerdown',{pointerId:10,pointerType:'touch',bubbles:true});
- await page.locator('[data-action=left]').dispatchEvent('pointerdown',{pointerId:11,pointerType:'touch',bubbles:true});
+ // Chromium-native multi-touch input: no simulation state manipulation.
+ const cdp=await page.context().newCDPSession(page);
+ await cdp.send('Emulation.setTouchEmulationEnabled',{enabled:true,maxTouchPoints:5});
+ const fire=await page.locator('[data-action=fire]').boundingBox();const left=await page.locator('[data-action=left]').boundingBox();
+ await cdp.send('Input.dispatchTouchEvent',{type:'touchStart',touchPoints:[{x:fire!.x+fire!.width/2,y:fire!.y+fire!.height/2,id:10},{x:left!.x+left!.width/2,y:left!.y+left!.height/2,id:11}]});
+ await expect(page.locator('.pressed')).toHaveCount(2);
  await page.waitForTimeout(3000);
- await page.locator('[data-action=fire]').dispatchEvent('pointercancel',{pointerId:10,pointerType:'touch',bubbles:true});
- await page.locator('[data-action=left]').dispatchEvent('pointercancel',{pointerId:11,pointerType:'touch',bubbles:true});
+ await cdp.send('Input.dispatchTouchEvent',{type:'touchCancel',touchPoints:[]});
  await expect(page.locator('.pressed')).toHaveCount(0);
  await page.screenshot({path:'artifacts/mobile-flight.png',fullPage:true});
 });
@@ -54,3 +58,10 @@ test('real keyboard play scores, clears a sector and persists its record',async(
  await page.addInitScript(()=>{Storage.prototype.getItem=()=>{throw new Error('blocked')};Storage.prototype.setItem=()=>{throw new Error('blocked')};});
  await page.goto('/');await page.getByRole('button',{name:'Sound on'}).click();await page.getByRole('button',{name:'Launch solo'}).click();await expect(page.locator('#hud')).toBeVisible();
  });
+test('touch landscape keeps arena and flight pads together',async({browser})=>{
+ const context=await browser.newContext({viewport:{width:844,height:390},hasTouch:true,isMobile:true});const page=await context.newPage();await page.goto('http://127.0.0.1:5180');await page.getByRole('button',{name:'Launch solo'}).click();
+ await expect(page.getByRole('button',{name:'Thrust',exact:true})).toBeVisible();
+ const pad=await page.locator('.touch-controls').boundingBox();const arena=await page.locator('.arena').boundingBox();
+ expect(pad!.y+pad!.height).toBeLessThan(390);expect(arena!.y+arena!.height).toBeLessThan(390);expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(844);
+ await page.screenshot({path:'artifacts/mobile-landscape.png',fullPage:true});await context.close();
+});

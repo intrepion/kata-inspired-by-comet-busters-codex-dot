@@ -115,7 +115,7 @@ export class Simulation {
       if(input.shield&&p.shieldCooldown===0&&p.energy>=25) { p.energy-=25; p.grace=Math.max(p.grace,1.5); p.shieldCooldown=4; this.event('shield',p); this.effect('blink',p,35); }
       if(input.blink&&p.blinkCooldown===0&&p.energy>=35) {
         p.energy-=35; p.blinkCooldown=3;
-        this.effect('blink',p,50); Object.assign(p,this.safePosition(160,true),{vx:0,vy:0,grace:1.2});
+        this.effect('blink',p,50); Object.assign(p,this.safePosition(160,true),{vx:0,vy:0,grace:Math.max(p.grace,1.2)});
         oldPilots.set(p.id,{x:p.x,y:p.y});
         this.effect('blink',p,50); this.event('blink',p);
       }

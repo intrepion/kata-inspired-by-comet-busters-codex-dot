@@ -78,3 +78,7 @@ it('keeps seeded outcomes equal across rendering frequencies and storage-safe sn
 it('fires spread bolts starting in sector three',()=>{
  const game=new Simulation(1,4,{sector:3,countdown:0});game.step([{...IDLE,fire:true}]);expect(game.snapshot().bolts.filter(b=>b.owner>=0)).toHaveLength(3);
 });
+it('blink retains longer protection from spawn and shield',()=>{
+ const spawned=new Simulation(1,3,{countdown:0});spawned.step([{...IDLE,blink:true}]);expect(spawned.snapshot().pilots[0].grace).toBeGreaterThan(2.7);
+ const shielded=new Simulation(1,3,{countdown:0,pilots:[{grace:0}]});shielded.step([{...IDLE,shield:true}]);shielded.step([{...IDLE,blink:true}]);expect(shielded.snapshot().pilots[0].grace).toBeGreaterThan(1.4);
+});

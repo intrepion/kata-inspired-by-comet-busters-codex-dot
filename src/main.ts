@@ -85,9 +85,11 @@ const flightKeys=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','Arr
 window.addEventListener('keydown',event=>{
  if(help.open) return;
  if(event.code==='Escape'||event.code==='KeyP') { if(screen==='flight'||screen==='paused') {event.preventDefault(); if(!event.repeat)screen==='flight'?pause():resume();} return; }
+ if(event.target instanceof Element && event.target.closest('button,a,input,select,textarea')) return;
  if(screen==='flight'&&flightKeys.has(event.code)) {event.preventDefault();keys.add(event.code);pendingKeys.add(event.code);}
 });
 window.addEventListener('keyup',event=>keys.delete(event.code));
+document.addEventListener('focusin',event=>{if(event.target instanceof Element&&event.target.closest('button,a,input,select,textarea'))clearInput();});
 window.addEventListener('blur',()=>{clearInput();pause();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){clearInput();pause();}});
 for(const button of document.querySelectorAll<HTMLButtonElement>('[data-action]')) {
