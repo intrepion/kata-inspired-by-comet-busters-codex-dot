@@ -8,4 +8,4 @@ One P2: global gameplay capture prevented Space/Enter activating focused semanti
 ## Spec
 One P2: blink replaced longer spawn/shield grace with 1.2s. Fix: retain the maximum protection duration. Public-seam regression for spawn/shield plus blink failed before the fix and passed afterward. Wrapping, swept collisions, single scoring, deferred fragments, expiry, resource/cooldown limits, wave progression, co-op continuation/reset and defensive persistence substantially matched the contract. Physical hardware coverage remains explicitly limited in QA.md.
 
-Both findings fixed and verified by regression checks; follow-up independent verification requested before shipping. No material scope creep identified.
+Both findings fixed and verified by regression checks; both independent reviewers re-inspected the corrections and reported no outstanding findings. No material scope creep identified.
