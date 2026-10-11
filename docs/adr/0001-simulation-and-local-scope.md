@@ -1,0 +1,2 @@
+# Deterministic local expedition
+Use a pure seeded 120 Hz simulation with toroidal swept collision and a Canvas 2D/HTML adapter. A variable-step game would be simpler but tie fairness and collision behavior to display speed; separating the simulation also makes behavioral tests repeatable. The expedition is solo or two-player local co-op rather than the original network/tournament modes: a network authority and synchronization would materially change the architecture and exceed the scope of this session.

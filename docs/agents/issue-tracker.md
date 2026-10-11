@@ -1,0 +1,1 @@
+The local acceptance contract is docs/SPEC.md; no external issue tracker needed for this standalone initial build. Review against the initial documentation commit. All design choices and test seams are delegated by the user's explicit request.

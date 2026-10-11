@@ -1,0 +1,2 @@
+# Coding standards
+Keep deterministic simulation independent from browser, storage, rendering and audio. Use strict TypeScript, named domain types, bounded resources, fixed-step timing and public-interface behavior tests. Treat all persisted data as untrusted. Semantic HTML controls need focus states and descriptive labels. Frame drawing must not alter gameplay randomness. No copied assets or hidden browser gameplay cheats.
