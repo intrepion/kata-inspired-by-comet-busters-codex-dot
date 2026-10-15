@@ -16,10 +16,11 @@ export class Simulation {
   private nextId=1;
   private events:GameEvent[]=[];
   private children:Threat[]=[];
-  constructor(players:1|2=1,seed=1,scenario?:Scenario) {
+  constructor(players:1|2=1,seed=1,scenario?:Scenario,private readonly rules:'expedition'|'tournament'='expedition') {
     this.randomState=seed>>>0;
     this.state={pilots:[],threats:[],bolts:[],effects:[],sector:scenario?.sector??1,score:0,countdown:scenario?.countdown??2,status:'playing',elapsed:0,kills:0};
-    for(let i=0;i<players;i++) this.state.pilots.push({id:this.nextId++,x:WIDTH/2+(players===2?(i===0?-70:70):0),y:HEIGHT/2,vx:0,vy:0,radius:11,angle:-Math.PI/2,hulls:3,energy:100,grace:2.8,shotCooldown:0,pulseCooldown:0,blinkCooldown:0,shieldCooldown:0,thrusting:false,...scenario?.pilots?.[i]});
+    for(let i=0;i<players;i++) this.state.pilots.push({id:this.nextId++,x:WIDTH/2+(players===2?(i===0?-70:70):0),y:HEIGHT/2,vx:0,vy:0,radius:11,angle:-Math.PI/2,hulls:this.rules==='tournament'?1:3,energy:100,grace:2.8,shotCooldown:0,pulseCooldown:0,blinkCooldown:0,shieldCooldown:0,thrusting:false,...scenario?.pilots?.[i]});
+    if(this.rules==='tournament') this.state.pilots.forEach((p,i)=>Object.assign(p,{x:WIDTH/2+(i===0?-200:200),angle:i===0?0:Math.PI}));
     this.spawnSector();
     scenario?.pilots?.forEach((pilot,i)=>Object.assign(this.state.pilots[i],pilot));
     if(scenario?.threats) this.state.threats=structuredClone(scenario.threats);
@@ -150,8 +151,9 @@ export class Simulation {
           const old=oldThreats.get(t.id)??t;
           if(sweptHit(start,movement,old,{x:t.vx*STEP,y:t.vy*STEP},b.radius+t.radius)) { this.destroy(t); hit=true; break; }
         }
-      } else for(const p of this.state.pilots) {
-        if(p.hulls<=0||p.grace>0) continue;
+      }
+      if(!hit&&(b.owner<0||this.rules==='tournament')) for(const p of this.state.pilots) {
+        if(p.id===b.owner||p.hulls<=0||p.grace>0) continue;
         const old=oldPilots.get(p.id)??p;
         if(sweptHit(start,movement,old,{x:p.vx*STEP,y:p.vy*STEP},p.radius+b.radius)) { this.damage(p); hit=true; break; }
       }
@@ -163,7 +165,11 @@ export class Simulation {
       for(const t of this.state.threats) if(sweptHit(old,{x:p.vx*STEP,y:p.vy*STEP},oldThreats.get(t.id)??t,{x:t.vx*STEP,y:t.vy*STEP},p.radius+t.radius)) { this.damage(p); break; }
     }
     this.state.threats.push(...this.children);
-    if(this.state.pilots.every(p=>p.hulls<=0)) { this.state.status='lost'; this.event('lost',{x:WIDTH/2,y:HEIGHT/2}); }
+    if(this.rules==='tournament') {
+      const alive=this.state.pilots.filter(p=>p.hulls>0);
+      if(alive.length<=1) {this.state.status=alive.length===1?'won':'lost';this.event(alive.length===1?'won':'lost',{x:WIDTH/2,y:HEIGHT/2});}
+    }
+    else if(this.state.pilots.every(p=>p.hulls<=0)) { this.state.status='lost'; this.event('lost',{x:WIDTH/2,y:HEIGHT/2}); }
     else if(this.state.threats.length===0) {
       this.state.score+=500*this.state.sector;
       if(this.state.sector===5) { this.state.status='won'; this.event('won',{x:WIDTH/2,y:HEIGHT/2}); }

@@ -6,7 +6,7 @@ test('accessible menu, quick taps, pause isolation, manual, restart and preferen
  await expect(page.getByRole('heading',{name:'Vesper Breakers.'})).toBeVisible();
  await page.getByRole('button',{name:'Sound on'}).click();await page.getByRole('button',{name:'Motion full'}).click();
  await page.reload();await expect(page.getByRole('button',{name:'Sound off'})).toHaveAttribute('aria-pressed','true');await expect(page.getByRole('button',{name:'Motion reduced'})).toHaveAttribute('aria-pressed','true');
- await page.getByRole('button',{name:'Launch solo'}).click();await expect(page.locator('#countdown')).toBeHidden({timeout:5000});
+ await page.getByRole('button',{name:'Launch solo'}).click();await expect(page.locator('#countdown')).toBeVisible();await expect(page.locator('#countdown')).toBeHidden({timeout:5000});
  await page.keyboard.press('q');await expect(page.locator('#pilots')).toContainText('BLINK 3s');
  await page.keyboard.press('Escape');await expect(page.getByRole('heading',{name:'Take a breath.'})).toBeVisible();
  const paused=await page.locator('#pilots').innerText();await page.keyboard.press('e');await page.keyboard.press('f');await page.waitForTimeout(500);expect(await page.locator('#pilots').innerText()).toBe(paused);
