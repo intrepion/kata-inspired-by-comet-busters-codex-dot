@@ -54,3 +54,7 @@ Actual skills used: local Matt Pocock **Grill with Docs**, **Grilling**, **Domai
 **Local tournament** adds two-pilot last-survivor rounds to the hangar. Use the same Mint/Copper keyboard controls as co-op. One hull each; opposing shots hurt, grace/shield protection still works. Rocks remain hazards, but clearing them does not win. Last survivor earns one point; simultaneous losses draw. Choose Next round for fresh ships/energy and retained points; first to three wins the match. Return to hangar/reload discards the transient match, leaving existing solo/co-op records and preferences intact.
 
 This is a local two-player adaptation of the archived tournament concept, with an original first-to-three score convention. It does not claim four-player/network parity, exact original physics or a full recreation. See [fidelity evidence](docs/fidelity-tournament.md).
+
+## Play online
+
+[Play the hosted game](https://intrepion.github.io/kata-inspired-by-comet-busters-codex-dot/)
