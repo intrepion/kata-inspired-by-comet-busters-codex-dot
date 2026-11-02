@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "workflowCommit": "76780ed303000b5dfc72d16e94f99a4d85c61100",
+  "sourceCommit": "e476113f0bc7cf51685e838d0587887ee5cd7945",
+  "runId": "41406729389",
+  "url": "http://127.0.0.1:4226/",
+  "inputs": {
+    "index.html": "307c6e51b85a87c0591b1a2aabaae8d421f7301993b6ae72f354079b6bc508de",
+    "assets/index-CEAe9rkR.css": "ec9921a34e1a44509608ac17ef156d7a3b6c6677b408f2d77e381a6fc21b394d",
+    "assets/index-CKADToJF.js": "3affa96edc65f98f58662fa1e8bf15d5bef5a26cfff26ffaa433678eb611ed27"
+  },
+  "browser": "153.0.8010.12",
+  "viewport": {
+    "width": 1280,
+    "height": 1000
+  },
+  "screenshots": [
+    "vesper-breakers-01.png",
+    "vesper-breakers-02.png"
+  ]
+}

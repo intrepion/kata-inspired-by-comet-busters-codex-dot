@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "gameId": "kata-inspired-by-comet-busters-codex-dot",
   "playUrl": "https://intrepion.github.io/kata-inspired-by-comet-busters-codex-dot/",
   "screenshots": [
@@ -12,6 +12,46 @@
         "sourcePath": "docs/qa/fidelity-2026-10-15/two-pilot-movement.jpg",
         "deployedBuild": null,
         "captureDate": null
+      }
+    },
+    {
+      "path": "arcade/screenshots/ci-20261102-01.jpg",
+      "sha256": "f053e6f33dbf5378ce3fc14407aa6dc4af5f19055e82d2fad31df1165a842413",
+      "alt": "Vesper Breakers gameplay, view 1",
+      "provenance": {
+        "kind": "ci_gameplay_capture",
+        "sourcePath": "arcade/capture-evidence/ci-20261102-01.png",
+        "sourceSha256": "9349094f1ae7da14b17f9b1ac8dc63aec634684459e4a9a1c3764b63a10968c1",
+        "captureCommit": "e476113f0bc7cf51685e838d0587887ee5cd7945",
+        "workflowRunId": "41406729389",
+        "inputHashes": {
+          "index.html": "307c6e51b85a87c0591b1a2aabaae8d421f7301993b6ae72f354079b6bc508de",
+          "assets/index-CEAe9rkR.css": "ec9921a34e1a44509608ac17ef156d7a3b6c6677b408f2d77e381a6fc21b394d",
+          "assets/index-CKADToJF.js": "3affa96edc65f98f58662fa1e8bf15d5bef5a26cfff26ffaa433678eb611ed27"
+        },
+        "publishedFilesVerifiedAt": "2026-11-02T19:01:20Z",
+        "captureRecordPath": "arcade/capture-evidence/ci-20261102-record.json",
+        "captureRecordSha256": "4f0dca58f0d832637c5e5873ef84428c346854cb9adabf4337f3157b7a8e17ab"
+      }
+    },
+    {
+      "path": "arcade/screenshots/ci-20261102-02.jpg",
+      "sha256": "9d0761359ad5171ffe7d1da319a6c342f87bb86866385c97a6e823d696a6febf",
+      "alt": "Vesper Breakers gameplay, view 2",
+      "provenance": {
+        "kind": "ci_gameplay_capture",
+        "sourcePath": "arcade/capture-evidence/ci-20261102-02.png",
+        "sourceSha256": "bff85f8170d4065b80e5e4df8083b9c46ae9a874e21d5ae1fbd260d61977a943",
+        "captureCommit": "e476113f0bc7cf51685e838d0587887ee5cd7945",
+        "workflowRunId": "41406729389",
+        "inputHashes": {
+          "index.html": "307c6e51b85a87c0591b1a2aabaae8d421f7301993b6ae72f354079b6bc508de",
+          "assets/index-CEAe9rkR.css": "ec9921a34e1a44509608ac17ef156d7a3b6c6677b408f2d77e381a6fc21b394d",
+          "assets/index-CKADToJF.js": "3affa96edc65f98f58662fa1e8bf15d5bef5a26cfff26ffaa433678eb611ed27"
+        },
+        "publishedFilesVerifiedAt": "2026-11-02T19:01:20Z",
+        "captureRecordPath": "arcade/capture-evidence/ci-20261102-record.json",
+        "captureRecordSha256": "4f0dca58f0d832637c5e5873ef84428c346854cb9adabf4337f3157b7a8e17ab"
       }
     }
   ]
