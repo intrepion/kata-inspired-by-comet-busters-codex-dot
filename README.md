@@ -58,3 +58,7 @@ This is a local two-player adaptation of the archived tournament concept, with a
 ## Play online
 
 [Play the hosted game](https://intrepion.github.io/kata-inspired-by-comet-busters-codex-dot/)
+
+## Arcade metadata
+
+See [docs/arcade-metadata.md](docs/arcade-metadata.md) for the game-owned manifest and screenshot provenance.
